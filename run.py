@@ -29,6 +29,7 @@ def main():
     # Parse the arguments.
     parser = argparse.ArgumentParser()
     parser.add_argument("--m3u", help="Path to the m3u playlist.", required=True)
+    parser.add_argument("--epg", help="Path to the EPG.", required=True)
     parser.add_argument("--port", help="The tuner port Plex will connect too.", default=5004, type=int)
     parser.add_argument("--debug", action="store_true", help="Enables a debug mode.")
     args = parser.parse_args()
@@ -39,8 +40,7 @@ def main():
         console_handler.setLevel(logging.DEBUG)
 
     # Setup IPTV channel provider and trigger the first load.
-    iptv_channel_provider = IPTVChannelProvider(args.m3u)
-    iptv_channel_provider.load()
+    iptv_channel_provider = IPTVChannelProvider(args.m3u, args.epg)
 
     # Setup Plex Tuner Server
     PlexTunerServer(args.debug, iptv_channel_provider, args.port).run()
