@@ -1,0 +1,53 @@
+name: Build and Release
+on: push
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          release_name: v1.0.${{ github.run_number }}
+          body: Commit ${{ github.sha }} from branch ${{ github.ref }}.
+          prerelease: ${{ github.ref != 'refs/heads/main' }}
+          draft: true
+  build:
+    needs:
+      - create-release
+    strategy:
+      matrix:
+        os:
+          - macOS-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Lint with flake8
+        run: |
+          flake8 run.py plextunerproxy
+      - name: Create Application
+        run: |
+          pyinstaller --onefile --name plex-tuner-proxy-${{ matrix.os }} run.py
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: dist/plex-tuner-proxy-${{ matrix.os }}
+          asset_name: plex-tuner-proxy-${{ matrix.os }}
+          asset_content_type: application/octet-stream

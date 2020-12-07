@@ -2,5 +2,5 @@
     "editor.formatOnSave": true,
     "python.linting.enabled": true,
     "lintOnSave": true,
-    "python.pythonPath": "/Users/dipesh/code/iptv-plex-tuner/env/bin/python3"
+    "python.pythonPath": "${workspaceFolder}/env/bin/python3"
 }

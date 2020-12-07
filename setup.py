@@ -15,7 +15,7 @@ setuptools.setup(
         "dev": [
             "autopep8==1.5.3",
             "flake8==3.8.1",
-            "PyInstaller==3.6"
+            "PyInstaller==4.1"
         ]
     }
 )
