@@ -15,6 +15,20 @@ provides come from source like IPTV.
     ./plex-tuner-proxy-macOS-latest --iptv.m3u <insert link to your M3U source> --iptv.epg <insert link to your EPG source>
     ```
 
+### Help Output
+```
+usage: plex-tuner-proxy [-h] --iptv.m3u IPTV.M3U [--iptv.epg IPTV.EPG] [--auto-scan-interval-seconds AUTO_SCAN_INTERVAL_SECONDS] [--port PORT] [--debug]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --iptv.m3u IPTV.M3U   Path to the m3u playlist.
+  --iptv.epg IPTV.EPG   Path to the EPG.
+  --auto-scan-interval-seconds AUTO_SCAN_INTERVAL_SECONDS
+                        The frequency in seconds at which to trigger the auto scanning. To disable auto scanning set to 0 or a negative number.
+  --port PORT           The tuner port Plex will connect too.
+  --debug               Enables debug mode.
+```
+
 ## Development
 ### Setup
 ```
