@@ -57,7 +57,7 @@ class Discover(Resource):
             "FirmwareName": "hdhomerun3_atsc",
             "TunerCount": 2,
             "FirmwareVersion": "20150826",
-            "DeviceID": "1234567890",
+            "DeviceID": f"{hash(self.plex_tuner_provider.friendly_name())}",
             "DeviceAuth": None,
             "BaseURL": f"http://{request.host}/",
             "LineupURL": f"http://{request.host}/lineup.json"
