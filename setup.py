@@ -8,7 +8,6 @@ setuptools.setup(
     install_requires=[
         "Flask-RESTful==0.3.8",
         "lxml==4.6.2",
-        "python-xmltv==1.4.3",
         "requests==2.24.0"
     ],
     extras_require={

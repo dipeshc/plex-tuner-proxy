@@ -73,9 +73,15 @@ class PlexTunerProvider(ABC):
         Internal method that is an infinite loop of scanning the data periodically.
         """
         logger.info("Scanning channels.")
-        self.scan()
-        logger.info(f"Scanning completed. {self._auto_scan_interval_seconds} seconds until next scan.")
-        threading.Timer(self._auto_scan_interval_seconds, self._auto_scanner).start()
+        try:
+            self.scan()
+            logger.info("Scanning completed.")
+        except Exception:
+            logger.exception("Scanning failed.")
+
+        self._timer = threading.Timer(self._auto_scan_interval_seconds, self._auto_scanner)
+        self._timer.start()
+        logger.info(f"Scanning again in {self._auto_scan_interval_seconds} seconds.")
 
     @abstractmethod
     def _scan(self):
